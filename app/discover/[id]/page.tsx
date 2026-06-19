@@ -1,18 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import { use } from 'react';
 import { themes, reviews, calculateTrustScore, getDifficultyLabel, currentUser } from '@/lib/mockData';
 import BottomNav from '@/components/BottomNav';
 
 interface ThemeDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default function ThemeDetailPage({ params }: ThemeDetailPageProps) {
-  const theme = themes.find((t) => t.id === params.id);
-  const themeReviews = reviews.filter((r) => r.themeId === params.id);
+  const { id } = use(params);
+  const theme = themes.find((t) => t.id === id);
+  const themeReviews = reviews.filter((r) => r.themeId === id);
 
   if (!theme) {
     return (
